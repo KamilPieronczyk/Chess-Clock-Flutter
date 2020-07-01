@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:chess_clock/screens/home/bloc/PlayerTimeBloc.dart';
+
 
 class PlayerTimeButton extends StatelessWidget {
+  final int time;
+  final PlayersState player;
+
+  PlayerTimeButton({this.time, this.player});
+
   @override
   Widget build(BuildContext context) {
+    final PlayersTimeBloc playersTimeBloc = BlocProvider.of<PlayersTimeBloc>(context);
+    final String minutesStr = ((time / 60) % 60).floor().toString().padLeft(2, '0');
+    final String secondsStr = (time % 60).floor().toString().padLeft(2, '0');
     return Material(
       child: FlatButton(
-        onPressed: () => print("object"),
-        child: Text('5:00', style: textStyle),
+        onPressed: () => playersTimeBloc.add(player),
+        child: Text('$minutesStr:$secondsStr', style: textStyle),
         color: Colors.orangeAccent[400],
       ),
       elevation: 5,

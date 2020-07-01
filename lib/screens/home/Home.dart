@@ -1,16 +1,14 @@
 import 'package:chess_clock/screens/home/ButtonsBar.dart';
 import 'package:chess_clock/screens/home/PlayerTimeButton.dart';
+import 'package:chess_clock/screens/home/bloc/PlayerTimeBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PlayerTimes {
-    int player1;
-    int player2;
-    PlayerTimes({this.player1, this.player2});
-}
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -20,7 +18,12 @@ class Home extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Padding(
-                  child: PlayerTimeButton(),
+                  child: BlocBuilder<PlayersTimeBloc, PlayersTime>(
+                    builder: (context, snapshot) {
+                      print(snapshot.player1);
+                      return PlayerTimeButton(time: snapshot.player1, player: PlayersState.Player1);
+                    }
+                  ),
                   padding: EdgeInsets.fromLTRB(25, 25, 25, 0)
                 )
               ),
@@ -31,7 +34,12 @@ class Home extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Padding(
-                  child: PlayerTimeButton(),
+                  child: BlocBuilder<PlayersTimeBloc, PlayersTime>(
+                    builder: (context, snapshot) {
+                      print(snapshot.player1);
+                      return PlayerTimeButton(time: snapshot.player2, player: PlayersState.Player2);
+                    }
+                  ),
                   padding: EdgeInsets.fromLTRB(25, 0, 25, 25)
                 )
               ),

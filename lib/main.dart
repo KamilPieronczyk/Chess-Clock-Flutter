@@ -1,8 +1,16 @@
+import 'package:chess_clock/screens/home/bloc/PlayerTimeBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import './screens/home/Home.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  final BlocProvider<PlayersTimeBloc> blocProvider = BlocProvider<PlayersTimeBloc>(
+    create: (context) => PlayersTimeBloc(),
+    child: MyApp(),
+  );
+  runApp(blocProvider);
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
