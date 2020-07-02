@@ -1,8 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'dart:async';
 
+//State
 class PlayersTime {
   int player1;
   int player2;
+
+  bool player1ButtonEnabled = true;
+  bool player2ButtonEnabled = true;
+
   PlayersTime({this.player1, this.player2});
 
   void decrementPlayer1() {
@@ -19,20 +25,46 @@ class PlayersTime {
   PlayersTime.of(PlayersTime value) : player1 = value.player1, player2 = value.player2;
 }
 
-enum PlayersState {BeforeStart, Player1, Player2, Finish}
+//Events
+enum PlayersState {BeforeStart, Player1, Player2, Finish, Pause}
 
+//Bloc
 class PlayersTimeBloc extends Bloc<PlayersState, PlayersTime> {
   @override
   PlayersTime get initialState => PlayersTime.init(60*5, 60*5);
 
+  var oneSec = const Duration(seconds:1);
+
+  PlayersState newEvent;
+
   @override
   Stream<PlayersTime> mapEventToState(PlayersState event) async*{
+    newEvent = event;
     switch(event){
       case PlayersState.Player1:
-        yield PlayersTime.of(state..decrementPlayer1());
+        Timer(oneSec, () {
+          if(newEvent == event){
+            state.decrementPlayer1();
+            this.add(PlayersState.Player1);
+          }
+        });
+        state.player1ButtonEnabled = true;
+        state.player2ButtonEnabled = false;
+        yield PlayersTime.of(state);
         break;
       case PlayersState.Player2:
-        yield PlayersTime.of(state..decrementPlayer2());
+        Timer(oneSec, () {
+          if(newEvent == event){
+            state.decrementPlayer2();
+            this.add(PlayersState.Player2);
+          }
+        });
+        state.player1ButtonEnabled = false;
+        state.player2ButtonEnabled = true;
+        yield PlayersTime.of(state);
+        break;
+      case PlayersState.BeforeStart:
+        yield PlayersTime.init(5*60, 5*60);
         break;
       default:
         yield state;

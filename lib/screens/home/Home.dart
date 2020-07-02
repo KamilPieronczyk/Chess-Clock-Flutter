@@ -20,8 +20,7 @@ class Home extends StatelessWidget {
                 child: Padding(
                   child: BlocBuilder<PlayersTimeBloc, PlayersTime>(
                     builder: (context, snapshot) {
-                      print(snapshot.player1);
-                      return PlayerTimeButton(time: snapshot.player1, player: PlayersState.Player1);
+                      return PlayerTimeButton(time: snapshot.player1, player: PlayersState.Player2, buttonEnabled: snapshot.player1ButtonEnabled,);
                     }
                   ),
                   padding: EdgeInsets.fromLTRB(25, 25, 25, 0)
@@ -36,8 +35,7 @@ class Home extends StatelessWidget {
                 child: Padding(
                   child: BlocBuilder<PlayersTimeBloc, PlayersTime>(
                     builder: (context, snapshot) {
-                      print(snapshot.player1);
-                      return PlayerTimeButton(time: snapshot.player2, player: PlayersState.Player2);
+                      return PlayerTimeButton(time: snapshot.player2, player: PlayersState.Player1, buttonEnabled: snapshot.player2ButtonEnabled);
                     }
                   ),
                   padding: EdgeInsets.fromLTRB(25, 0, 25, 25)
