@@ -22,7 +22,11 @@ class PlayersTime {
 
   PlayersTime.init(int x, int y) : player1 = x, player2 = y;
 
-  PlayersTime.of(PlayersTime value) : player1 = value.player1, player2 = value.player2;
+  PlayersTime.of(PlayersTime value) :
+    player1 = value.player1,
+    player2 = value.player2,
+    player1ButtonEnabled = value.player1ButtonEnabled,
+    player2ButtonEnabled = value.player2ButtonEnabled
 }
 
 //Events
